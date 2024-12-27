@@ -1,7 +1,7 @@
 [
     {
         "hic_path": "/nfs/turbo/umms-drjieliu/proj/4dn/data/bulkHiC/haley_HSPC_hic/GSM2861708_HIC1258_aligned_inter_30.hic",
-        "featurePath": "result_1258s_v_5577_10KBhg38.differential.canyons.txt",
+        "featurePath": "/nfs/turbo/umms-drjieliu/usr/temp_smoran/Canyons/120624_Enrichment_Ratios/result_1258s_v_5577_10KBhg38.differential.canyons.txt",
         "resolution": "10000",
         "sqliteARGS": {
             "SIG-timeout": "10",
@@ -21,7 +21,7 @@
     },
     {
         "hic_path": "/nfs/turbo/umms-drjieliu/proj/4dn/data/bulkHiC/haley_HSPC_hic/5577.hic",
-        "featurePath": "result_1258s_v_5577_10KBhg38.differential.canyons.txt",
+        "featurePath": "/nfs/turbo/umms-drjieliu/usr/temp_smoran/Canyons/120624_Enrichment_Ratios/result_1258s_v_5577_10KBhg38.differential.canyons.txt",
         "resolution": "10000",
         "sqliteARGS": {
             "SIG-timeout": "10",
@@ -41,7 +41,7 @@
     },
     {
         "hic_path": "/nfs/turbo/umms-drjieliu/proj/4dn/data/bulkHiC/haley_HSPC_hic/GSM2861708_HIC1258_aligned_inter_30.hic",
-        "featurePath": "result_1258_v_6281_DMSO_10KBhg38.differential.canyons.txt",
+        "featurePath": "/nfs/turbo/umms-drjieliu/usr/temp_smoran/Canyons/120624_Enrichment_Ratios/result_1258_v_6281_DMSO_10KBhg38.differential.canyons.txt",
         "resolution": "10000",
         "sqliteARGS": {
             "SIG-timeout": "10",
@@ -61,7 +61,7 @@
     },
     {
         "hic_path": "/nfs/turbo/umms-drjieliu/proj/4dn/data/bulkHiC/haley_HSPC_hic/6281_DMSO.hic",
-        "featurePath": "result_1258_v_6281_DMSO_10KBhg38.differential.canyons.txt",
+        "featurePath": "/nfs/turbo/umms-drjieliu/usr/temp_smoran/Canyons/120624_Enrichment_Ratios/result_1258_v_6281_DMSO_10KBhg38.differential.canyons.txt",
         "resolution": "10000",
         "sqliteARGS": {
             "SIG-timeout": "10",
@@ -81,7 +81,7 @@
     },
     {
         "hic_path": "/nfs/turbo/umms-drjieliu/proj/4dn/data/bulkHiC/haley_HSPC_hic/GSM2861708_HIC1258_aligned_inter_30.hic",
-        "featurePath": "result_1258_v_6527_10KBhg38.differential.canyons.txt",
+        "featurePath": "/nfs/turbo/umms-drjieliu/usr/temp_smoran/Canyons/120624_Enrichment_Ratios/result_1258_v_6527_10KBhg38.differential.canyons.txt",
         "resolution": "10000",
         "sqliteARGS": {
             "SIG-timeout": "10",
@@ -101,7 +101,7 @@
     },
     {
         "hic_path": "/nfs/turbo/umms-drjieliu/proj/4dn/data/bulkHiC/haley_HSPC_hic/6527.hic",
-        "featurePath": "result_1258_v_6527_10KBhg38.differential.canyons.txt",
+        "featurePath": "/nfs/turbo/umms-drjieliu/usr/temp_smoran/Canyons/120624_Enrichment_Ratios/result_1258_v_6527_10KBhg38.differential.canyons.txt",
         "resolution": "10000",
         "sqliteARGS": {
             "SIG-timeout": "10",
