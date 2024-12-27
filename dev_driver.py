@@ -1,5 +1,5 @@
 import json
-jsonPATH = "/home/spmoran/temp_smoran/Canyons/122724_test_mass_sqlwrites/test_in.json"
+jsonPATH = "test.json"
 with open(jsonPATH) as f:
     d = json.load(f)
 

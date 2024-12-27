@@ -1,0 +1,123 @@
+[
+    {
+        "hic_path": "/nfs/turbo/umms-drjieliu/proj/4dn/data/bulkHiC/haley_HSPC_hic/GSM2861708_HIC1258_aligned_inter_30.hic",
+        "featurePath": "result_1258s_v_5577_10KBhg38.differential.canyons.txt",
+        "resolution": "10000",
+        "sqliteARGS": {
+            "SIG-timeout": "10",
+            "touchSqlCmd": "_writeManyToTable"
+        },
+        "norm": "NONE",
+        "PUB_ID": "GSE107148",
+        "dataset": "HIC1258",
+        "condition": "ControlHaleyHSPC",
+        "dimensions": "32",
+        "meta-data": {
+            "genome": "hg38",
+            "DOI": "Xiaotian Zhang",
+            "DateOfWrite": "Dec-27-2024"
+        },
+        "nickname": "DifferentialCanyons_HIC1258_v_5577_@_HIC1258"
+    },
+    {
+        "hic_path": "/nfs/turbo/umms-drjieliu/proj/4dn/data/bulkHiC/haley_HSPC_hic/5577.hic",
+        "featurePath": "result_1258s_v_5577_10KBhg38.differential.canyons.txt",
+        "resolution": "10000",
+        "sqliteARGS": {
+            "SIG-timeout": "10",
+            "touchSqlCmd": "_writeManyToTable"
+        },
+        "norm": "NONE",
+        "PUB_ID": "GSE107148",
+        "dataset": "5577",
+        "condition": "HaleyHSPCTumor",
+        "dimensions": "32",
+        "meta-data": {
+            "genome": "hg38",
+            "DOI": "Xiaotian Zhang",
+            "DateOfWrite": "Dec-27-2024"
+        },
+        "nickname": "DifferentialCanyons_HIC1258_v_5577_@_5577"
+    },
+    {
+        "hic_path": "/nfs/turbo/umms-drjieliu/proj/4dn/data/bulkHiC/haley_HSPC_hic/GSM2861708_HIC1258_aligned_inter_30.hic",
+        "featurePath": "result_1258_v_6281_DMSO_10KBhg38.differential.canyons.txt",
+        "resolution": "10000",
+        "sqliteARGS": {
+            "SIG-timeout": "10",
+            "touchSqlCmd": "_writeManyToTable"
+        },
+        "norm": "NONE",
+        "PUB_ID": "GSE107148",
+        "dataset": "HIC1258",
+        "condition": "HaleyHSPCControl",
+        "dimensions": "32",
+        "meta-data": {
+            "genome": "hg38",
+            "DOI": "Xiaotian Zhang",
+            "DateOfWrite": "Dec-27-2024"
+        },
+        "nickname": "DifferentialCanyons_HIC1258_v_6281DMSO_@_HIC1258"
+    },
+    {
+        "hic_path": "/nfs/turbo/umms-drjieliu/proj/4dn/data/bulkHiC/haley_HSPC_hic/6281_DMSO.hic",
+        "featurePath": "result_1258_v_6281_DMSO_10KBhg38.differential.canyons.txt",
+        "resolution": "10000",
+        "sqliteARGS": {
+            "SIG-timeout": "10",
+            "touchSqlCmd": "_writeManyToTable"
+        },
+        "norm": "NONE",
+        "PUB_ID": "GSE107148",
+        "dataset": "6281DMSO",
+        "condition": "HaleyHSPCTumor",
+        "dimensions": "32",
+        "meta-data": {
+            "genome": "hg38",
+            "DOI": "Xiaotian Zhang",
+            "DateOfWrite": "Dec-27-2024"
+        },
+        "nickname": "DifferentialCanyons_HIC1258_v_6281DMSO_@_6281DMSO"
+    },
+    {
+        "hic_path": "/nfs/turbo/umms-drjieliu/proj/4dn/data/bulkHiC/haley_HSPC_hic/GSM2861708_HIC1258_aligned_inter_30.hic",
+        "featurePath": "result_1258_v_6527_10KBhg38.differential.canyons.txt",
+        "resolution": "10000",
+        "sqliteARGS": {
+            "SIG-timeout": "10",
+            "touchSqlCmd": "_writeManyToTable"
+        },
+        "norm": "NONE",
+        "PUB_ID": "GSE107148",
+        "dataset": "HIC1258",
+        "condition": "HaleyHSPCControl",
+        "dimensions": "32",
+        "meta-data": {
+            "genome": "hg38",
+            "DOI": "Xiaotian Zhang",
+            "DateOfWrite": "Dec-27-2024"
+        },
+        "nickname": "DifferentialCanyons_HIC1258_v_6527_@_HIC1258"
+    },
+    {
+        "hic_path": "/nfs/turbo/umms-drjieliu/proj/4dn/data/bulkHiC/haley_HSPC_hic/6527.hic",
+        "featurePath": "result_1258_v_6527_10KBhg38.differential.canyons.txt",
+        "resolution": "10000",
+        "sqliteARGS": {
+            "SIG-timeout": "10",
+            "touchSqlCmd": "_writeManyToTable"
+        },
+        "norm": "NONE",
+        "PUB_ID": "GSE107148",
+        "dataset": "6527",
+        "condition": "HaleyHSPCTumor",
+        "dimensions": "32",
+        "meta-data": {
+            "genome": "hg38",
+            "DOI": "Xiaotian Zhang",
+            "DateOfWrite": "Dec-27-2024"
+        },
+        "nickname": "DifferentialCanyons_HIC1258_v_6527_@_6527"
+    }
+]
+

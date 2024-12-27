@@ -57,6 +57,6 @@ class C3Image4:
         return f"{val}"
         
 
- def extractor(dictionary, *args):
-     return {value:dictionary[value] for value in args}
+def extractor(dictionary, *args):
+    return {value:dictionary[value] for value in args}
 
