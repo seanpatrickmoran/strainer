@@ -28,6 +28,7 @@
 
 import json
 import numpy as np
+import base64
 
 class C3Image4:
     def __init__(self,name,coordinates,numpyarr,viewing_vmax,dimensions,resolution,hic_path,PUB_ID,**kwargs):
