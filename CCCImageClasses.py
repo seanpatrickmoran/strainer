@@ -32,7 +32,8 @@ import json
 class C3Image4:
     def __init__(self,name,coordinates,numpyarr,viewing_vmax,dimensions,resolution,hic_path,PUB_ID,**kwargs):
         c1,x1,x2,c2,y1,y2=coordinates
-        _narr = numpyarr.astype('int32')
+#        _narr = numpyarr.astype('int32')
+        _narr = numpyarr.astype(np.float32)
         if not c1.startswith("chr"):
             c1="chr"+c1
             c2="chr"+c2
@@ -42,7 +43,8 @@ class C3Image4:
                        "condition": kwargs.get("condition",""),
                        "coordinates":self.coordinates,
 #                       maybe we convert the numpyarr into 4 channel images first?
-                       "numpyarr":_narr.flatten().tobytes(),
+#                       "numpyarr":_narr.flatten().tobytes(),
+                       "numpyarr": base64.b64encode(_narr.flatten().tobytes()).decode('utf-8'),
                        "viewing_vmax": viewing_vmax,
                        "dimensions": dimensions,
                        "resolution": resolution,
