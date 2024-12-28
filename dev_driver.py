@@ -1,8 +1,4 @@
 import json
-jsonPATH = "test.json"
-with open(jsonPATH) as f:
-    d = json.load(f)
-
 import os
 import sqlite3
     
@@ -77,8 +73,12 @@ def writeFunctionCalls(jsonListOfDicts,databasePATH):
 
 
 if __name__ == "__main__":
-    dbp = "/home/spmoran/temp_smoran/Canyons/122724_test_mass_sqlwrites/databse1.db"
+    jsonPATH = "test.json"
+    with open(jsonPATH) as f:
+        d = json.load(f)
+
     
+    dbp = "/home/spmoran/temp_smoran/Canyons/122724_test_mass_sqlwrites/databse1.db"
     try:
         if not interact_table(dbp,10,"_check_head"):
             interact_table(dbp,10,"_createTable")
