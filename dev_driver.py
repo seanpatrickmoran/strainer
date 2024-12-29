@@ -24,8 +24,8 @@ def checkSQL(databasePATH,timeout):
         return promise
 
 
-from hicImageViews import collect_numpy_matrices
-from touchSql import interact_table, _createTable, _writeManyToTable, _writeSingularToTable, _readFirstEntryTable, _readMatchAllTable, _readMatchHiCPathTable, _check_head, _check_tail, untouch, only_populated_windows
+from hicImageViews import collect_numpy_matrices, only_populated_windows
+from touchSql import interact_table, _createTable, _writeManyToTable, _writeSingularToTable, _readFirstEntryTable, _readMatchAllTable, _readMatchHiCPathTable, _check_head, _check_tail, untouch
 # from CCCImageClasses import C3Image4, extractor
 def writeFunctionCalls(jsonListOfDicts,databasePATH,**kwargs):
     assert checkSQL(databasePATH,10), "No table exists at database, run 'interact_table(dbp,10,\"_createTable\")''"
