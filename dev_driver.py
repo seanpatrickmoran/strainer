@@ -27,7 +27,7 @@ def checkSQL(databasePATH,timeout):
 from hicImageViews import collect_numpy_matrices
 from touchSql import interact_table, _createTable, _writeManyToTable, _writeSingularToTable, _readFirstEntryTable, _readMatchAllTable, _readMatchHiCPathTable, _check_head, _check_tail, untouch
 # from CCCImageClasses import C3Image4, extractor
-def writeFunctionCalls(jsonListOfDicts,databasePATH):
+def writeFunctionCalls(jsonListOfDicts,databasePATH,**kwargs):
     assert checkSQL(databasePATH,10), "No table exists at database, run 'interact_table(dbp,10,\"_createTable\")''"
     assert interact_table(dbp,10,"_check_head"), "No table exists at database, run 'interact_table(dbp,10,\"_createTable\")''"
     for jDict in jsonListOfDicts:
@@ -45,6 +45,12 @@ def writeFunctionCalls(jsonListOfDicts,databasePATH):
         
         print(f"writing {nickname} entries to {databasePATH}",end="")
         hicViewDict = collect_numpy_matrices(hic_path, featurePath, norm, int(resolution), int(dimensions))
+        
+        populousIndices = only_populated_windows(numpy_hic_dictionary,dimensions,choose_scaler=kwargs.get("choose_scaler",2))
+        populousImgDict = {x:numpy_hic_dictionary[x] for x in populousIndices}
+        
+#        control_feat = only_populated_windows(hic_control_numpy,32,4)
+#        populousDicts
         print(f".",end="")
 
 #         hicViewDict[lineNumber] where lineNumber are lines from featurePath tabular file
