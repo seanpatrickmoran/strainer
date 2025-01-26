@@ -44,8 +44,8 @@ class C3Image4:
                        "condition": kwargs.get("condition",""),
                        "coordinates":self.coordinates,
 #                       maybe we convert the numpyarr into 4 channel images first?
-#                       "numpyarr":_narr.flatten().tobytes(),
-                       "numpyarr": base64.b64encode(_narr.flatten().tobytes()).decode('utf-8'),
+                       "numpyarr": bytes(_narr.flatten()),
+                       # "numpyarr": base64.b64encode(_narr.flatten().tobytes()).decode('utf-8'),
                        "viewing_vmax": viewing_vmax,
                        "dimensions": dimensions,
                        "resolution": resolution,
