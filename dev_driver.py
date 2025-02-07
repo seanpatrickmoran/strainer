@@ -79,12 +79,13 @@ def writeFunctionCalls(jsonListOfDicts,databasePATH,**kwargs):
 
 
 if __name__ == "__main__":
-    jsonPATH = "/nfs/turbo/umms-drjieliu/usr/temp_smoran/Canyons/122824_loops_2_json_write/122924_test_mustache_GM12878.json"
+    #jsonPATH = "/nfs/turbo/umms-drjieliu/usr/temp_smoran/Canyons/122824_loops_2_json_write/122924_test_mustache_GM12878.json"
+    jsonPATH = "/nfs/turbo/umms-drjieliu/usr/temp_smoran/Canyons/122824_loops_2_json_write/123024_forDB5.json"
     with open(jsonPATH) as f:
         d = json.load(f)
 
     
-    dbp = "/home/spmoran/temp_smoran/Canyons/122724_test_mass_sqlwrites/databse3.db"
+    dbp = "/home/spmoran/temp_smoran/Canyons/122724_test_mass_sqlwrites/databse6_binary.db"
     try:
         if not interact_table(dbp,10,"_check_head"):
             interact_table(dbp,10,"_createTable")
