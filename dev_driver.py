@@ -30,6 +30,7 @@ from touchSql import interact_table, _createTable, _writeManyToTable, _writeSing
 def writeFunctionCalls(jsonListOfDicts,databasePATH,**kwargs):
     assert checkSQL(databasePATH,10), "No table exists at database, run 'interact_table(dbp,10,\"_createTable\")''"
     assert interact_table(dbp,10,"_check_head"), "No table exists at database, run 'interact_table(dbp,10,\"_createTable\")''"
+    index_offset = 0;
     for jDict in jsonListOfDicts:
         hic_path    = jDict["hic_path"]
         featurePath = jDict["featurePath"]
@@ -71,10 +72,12 @@ def writeFunctionCalls(jsonListOfDicts,databasePATH,**kwargs):
             "PUB_ID"       : PUB_ID,
             "dataset"      : dataset,
             "condition"    : condition,
-            "metadata"     : metadata}
+            "metadata"     : metadata,
+            "key_id" : index_offset}
     
         print(f".",end=" ")
-        interact_table(databasePATH,int(sqliteARGS["SIG-timeout"]),sqliteARGS["touchSqlCmd"],**insert_kwargs)
+        _,resOffset = interact_table(databasePATH,int(sqliteARGS["SIG-timeout"]),sqliteARGS["touchSqlCmd"],**insert_kwargs)
+        index_offset += resOffset
         print(f"__@__@__@__@__@__")
 
 
@@ -85,7 +88,10 @@ if __name__ == "__main__":
         d = json.load(f)
 
     
-    dbp = "/home/spmoran/temp_smoran/Canyons/122724_test_mass_sqlwrites/databse6_binary.db"
+    #dbp = "/home/spmoran/temp_smoran/Canyons/122724_test_mass_sqlwrites/databse6_binary.db"
+    dbp = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_7_bin.db"
+		#vecdb = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/sql_vec.db"
+ 
     try:
         if not interact_table(dbp,10,"_check_head"):
             interact_table(dbp,10,"_createTable")

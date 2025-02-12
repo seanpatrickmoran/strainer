@@ -181,8 +181,8 @@ def call(PATH,TIMEOUT):
 def _createTable(dbPATH, timeout,**kwargs):
     connection,cursor=call(dbPATH,timeout)
     try:
-#         cursor = connection.execute("CREATE TABLE imag(name, coordinates, numpyarr, viewing_vmax, dimensions, hic_path, PUB_ID, resolution, meta)")
-        cursor = connection.execute("CREATE TABLE imag(name, dataset, condition, coordinates, numpyarr, viewing_vmax, dimensions, hic_path, PUB_ID, resolution, norm, meta)")
+#         cursor = connection.execute("CREATE TABLE imag(rowid, name, coordinates, numpyarr, viewing_vmax, dimensions, hic_path, PUB_ID, resolution, meta)")
+        cursor = connection.execute("CREATE TABLE imag(key_id, name, dataset, condition, coordinates, numpyarr, viewing_vmax, dimensions, hic_path, PUB_ID, resolution, norm, meta)")
         print("table make; success")
     finally:
         cursor.close()
@@ -193,7 +193,7 @@ def _writeManyToTable(dbPATH,timeout,**kwargs):
         connection,cursor=call(dbPATH,timeout)
         try:
             data = tuple(x for x in data)
-            cursor.executemany("INSERT INTO imag VALUES(:name, :dataset, :condition, :coordinates, :numpyarr, :viewing_vmax, :dimensions, :hic_path, :PUB_ID, :resolution, :norm, :meta)", data)
+            cursor.executemany("INSERT INTO imag VALUES(:key_id, :name, :dataset, :condition, :coordinates, :numpyarr, :viewing_vmax, :dimensions, :hic_path, :PUB_ID, :resolution, :norm, :meta)", data)
             print(f"success")
         except Exception as e:
             print(e)
@@ -210,6 +210,7 @@ def _writeManyToTable(dbPATH,timeout,**kwargs):
         return
     
     data = []
+    key_id = kwargs["key_id"]
     image_np_dict,prefix_name, = kwargs["image_np_dict"],kwargs["prefix_name"]
     resolution, hic_path, PUB_ID = kwargs["resolution"],kwargs["hic_path"],kwargs["PUB_ID"]
     dataset,condition=kwargs["dataset"],kwargs["condition"],
@@ -218,11 +219,12 @@ def _writeManyToTable(dbPATH,timeout,**kwargs):
         if len(data)>999:
             _write_db(data)
             data = []
+        key_id+=1
         focus = image_np_dict[i]
         fields = extractor(focus, 'original coordinates', 'numpy_window', 'viewing_vmax',)
-        data += [C3Image4(f"{prefix_name}_#{i}", *[fields[k] for k in fields.keys()],focus['numpy_window'].shape[0],resolution,hic_path,PUB_ID,genome="hg38", dataset=dataset,condition=condition,norm=norm).entity]
+        data += [C3Image4(key_id, f"{prefix_name}_#{i}", *[fields[k] for k in fields.keys()],focus['numpy_window'].shape[0],resolution,hic_path,PUB_ID,genome="hg38", dataset=dataset,condition=condition,norm=norm).entity]
     _write_db(data)
-    
+    return "", key_id
 
 def _writeSingularToTable(dbPATH,timeout,**kwargs):
     data = (
@@ -233,7 +235,7 @@ def _writeSingularToTable(dbPATH,timeout,**kwargs):
         try:
             data = tuple(x for x in data)
     #         print(data)
-            cursor.executemany("INSERT INTO imag VALUES(:name, :dataset, :condition, :coordinates, :numpyarr, :viewing_vmax, :dimensions, :hic_path, :PUB_ID, :resolution, :norm, :meta)", data)
+            cursor.executemany("INSERT INTO imag VALUES(:key_id, :name, :dataset, :condition, :coordinates, :numpyarr, :viewing_vmax, :dimensions, :hic_path, :PUB_ID, :resolution, :norm, :meta)", data)
             print(f"success")
         except Exception as e:
             print(e)
