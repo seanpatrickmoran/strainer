@@ -183,7 +183,7 @@ def _createTable(dbPATH, timeout,**kwargs):
     try:
 
 #         cursor = connection.execute("CREATE TABLE imag(rowid, name, coordinates, numpyarr, viewing_vmax, dimensions, hic_path, PUB_ID, resolution, meta)")
-        cursor = connection.execute("CREATE TABLE imag(key_id, name, dataset, condition, coordinates, numpyarr, viewing_vmax, dimensions, hic_path, PUB_ID, resolution, norm, toolsource, featuretype, celltype, experiment, meta)")
+        cursor = connection.execute("CREATE TABLE imag(key_id, name, dataset, condition, coordinates, numpyarr, viewing_vmax, dimensions, hic_path, PUB_ID, resolution, norm, toolsource, featuretype, meta)")
         print("table make; success")
     finally:
         cursor.close()
@@ -194,7 +194,7 @@ def _writeManyToTable(dbPATH,timeout,**kwargs):
         connection,cursor=call(dbPATH,timeout)
         try:
             data = tuple(x for x in data)
-            cursor.executemany("INSERT INTO imag VALUES(:key_id, :name, :dataset, :condition, :coordinates, :numpyarr, :viewing_vmax, :dimensions, :hic_path, :PUB_ID, :resolution, :norm, :toolsource, :featuretype, :celltype, :experiment, :meta)", data)
+            cursor.executemany("INSERT INTO imag VALUES(:key_id, :name, :dataset, :condition, :coordinates, :numpyarr, :viewing_vmax, :dimensions, :hic_path, :PUB_ID, :resolution, :norm, :toolsource, :featuretype, :meta)", data)
             print(f"success")
         except Exception as e:
             print(e)
@@ -236,7 +236,7 @@ def _writeSingularToTable(dbPATH,timeout,**kwargs):
         try:
             data = tuple(x for x in data)
     #         print(data)
-            cursor.executemany("INSERT INTO imag VALUES(:key_id, :name, :dataset, :condition, :coordinates, :numpyarr, :viewing_vmax, :dimensions, :hic_path, :PUB_ID, :resolution, :norm, :toolsource, :featuretype, :celltype, :experiment, :meta)", data)
+            cursor.executemany("INSERT INTO imag VALUES(:key_id, :name, :dataset, :condition, :coordinates, :numpyarr, :viewing_vmax, :dimensions, :hic_path, :PUB_ID, :resolution, :norm, :toolsource, :featuretype, :meta)", data)
             print(f"success")
         except Exception as e:
             print(e)

@@ -53,8 +53,6 @@ class C3Image4:
                        "norm": kwargs.get("norm",""),
                        "tool-source":kwargs.get("toolsource",""),
                        "feature-type": kwargs.get("featuretype",""),
-                       "cell-type": kwargs.get("celltype",""),
-                       "experiment": kwargs.get("experiment",""),
                        "meta":json.dumps(kwargs)
                       }
 

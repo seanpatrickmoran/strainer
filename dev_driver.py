@@ -47,8 +47,6 @@ def writeFunctionCalls(jsonListOfDicts,databasePATH,**kwargs):
         nickname    = jDict["nickname"]
         toolsource  = jDict["tool-source"]
         featuretype = jDict["feat-type"]
-        celltype    = jDict["Sample"]
-        experiment  = jDict["Experiment Type(s)"]
         
 
 # {'sqliteARGS': {'SIG-timeout': '10', 'touchSqlCmd': '_writeManyToTable'},
@@ -125,14 +123,14 @@ def writeFunctionCalls(jsonListOfDicts,databasePATH,**kwargs):
 
 if __name__ == "__main__":
     #jsonPATH = "/nfs/turbo/umms-drjieliu/usr/temp_smoran/Canyons/122824_loops_2_json_write/122924_test_mustache_GM12878.json"
-    jsonPATH = "/nfs/turbo/umms-drjieliu/usr/temp_smoran/Canyons/122824_loops_2_json_write/123024_forDB5.json"
+    jsonPATH = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/020925_MassCalls/021325_for_extended_DB.json"
     with open(jsonPATH) as f:
         d = json.load(f)
 
-    
+
     #dbp = "/home/spmoran/temp_smoran/Canyons/122724_test_mass_sqlwrites/databse6_binary.db"
-    dbp = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_7_bin.db"
-		#vecdb = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/sql_vec.db"
+    dbp = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_8_bin.db"
+    #vecdb = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/sql_vec.db"
  
     try:
         if not interact_table(dbp,10,"_check_head"):
