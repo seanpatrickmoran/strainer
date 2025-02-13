@@ -32,6 +32,8 @@ def writeFunctionCalls(jsonListOfDicts,databasePATH,**kwargs):
     assert interact_table(dbp,10,"_check_head"), "No table exists at database, run 'interact_table(dbp,10,\"_createTable\")''"
     index_offset = 0;
     for jDict in jsonListOfDicts:
+
+        print(jDict)
         hic_path    = jDict["hic_path"]
         featurePath = jDict["featurePath"]
         resolution  = jDict["resolution"]
