@@ -54,7 +54,7 @@ class C3Image4:
                        "tool-source":kwargs.get("toolsource",""),
                        "feature-type": kwargs.get("featuretype",""),
                        "cell-type": kwargs.get("celltype",""),
-                       "experiment": kwargs.get("experiment","")
+                       "experiment": kwargs.get("experiment",""),
                        "meta":json.dumps(kwargs)
                       }
 
