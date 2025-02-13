@@ -83,12 +83,13 @@ def writeFunctionCalls(jsonListOfDicts,databasePATH,**kwargs):
         print(f"writing {nickname} entries to {databasePATH}",end="")
         hicViewDict = collect_numpy_matrices(hic_path, featurePath, norm, int(resolution), int(dimensions))
         
-        populousIndices = only_populated_windows(hicViewDict,dimensions,choose_scaler=kwargs.get("choose_scaler",2))
-        populousImgDict = {x:hicViewDict[x] for x in populousIndices}
+        try:
+            populousIndices = only_populated_windows(hicViewDict,dimensions,choose_scaler=kwargs.get("choose_scaler",2))
+            populousImgDict = {x:hicViewDict[x] for x in populousIndices}
         
 #        control_feat = only_populated_windows(hic_control_numpy,32,4)
 #        populousDicts
-        print(f".",end="")
+            print(f".",end="")
 
 #         hicViewDict[lineNumber] where lineNumber are lines from featurePath tabular file
 #
@@ -100,25 +101,28 @@ def writeFunctionCalls(jsonListOfDicts,databasePATH,**kwargs):
 #                     "viewing_vmax"        : Int,
 #
 #
-        insert_kwargs = {
-            "image_np_dict": hicViewDict,
-            "prefix_name"  : nickname,
-            "resolution"   : resolution,
-            "hic_path"     : hic_path,
-            "PUB_ID"       : PUB_ID,
-            "dataset"      : dataset,
-            "condition"    : condition,
-            "metadata"     : metadata,
-            "toolsource"   : toolsource,
-            "featuretype"  : featuretype,
-            "celltype"     : celltype,
-            "experiment"   : experiment,
-            "key_id"       : index_offset}
-    
-        print(f".",end=" ")
-        _,resOffset = interact_table(databasePATH,int(sqliteARGS["SIG-timeout"]),sqliteARGS["touchSqlCmd"],**insert_kwargs)
-        index_offset += resOffset
-        print(f"__@__@__@__@__@__")
+            insert_kwargs = {
+                "image_np_dict": hicViewDict,
+                "prefix_name"  : nickname,
+                "resolution"   : resolution,
+                "hic_path"     : hic_path,
+                "PUB_ID"       : PUB_ID,
+                "dataset"      : dataset,
+                "condition"    : condition,
+                "metadata"     : metadata,
+                "toolsource"   : toolsource,
+                "featuretype"  : featuretype,
+                "celltype"     : celltype,
+                "experiment"   : experiment,
+                "key_id"       : index_offset}
+        
+            print(f".",end=" ")
+            _,resOffset = interact_table(databasePATH,int(sqliteARGS["SIG-timeout"]),sqliteARGS["touchSqlCmd"],**insert_kwargs)
+            index_offset += resOffset
+            print(f"__@__@__@__@__@__")
+
+        except Exception:
+            continue
 
 
 if __name__ == "__main__":
