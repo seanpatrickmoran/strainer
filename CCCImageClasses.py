@@ -51,8 +51,8 @@ class C3Image4:
                        "hic_path": hic_path,
                        "PUB_ID": PUB_ID,
                        "norm": kwargs.get("norm",""),
-                       "tool-source":kwargs.get("toolsource",""),
-                       "feature-type": kwargs.get("featuretype",""),
+                       "toolsource":kwargs.get("toolsource",""),
+                       "featuretype": kwargs.get("featuretype",""),
                        "meta":json.dumps(kwargs)
                       }
 

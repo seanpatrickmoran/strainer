@@ -228,12 +228,13 @@ def subsample(i,image_dict,squeeze):
     return image_dict[i]['numpy_window'][nsize-squeeze:nsize+squeeze,nsize-squeeze:nsize+squeeze]
 
 def only_populated_windows(numpy_hic_dictionary,window_scan_size,choose_scaler=4):
-#     dict_len = len(numpy_hic_dictionary.keys())
     mn = numpy_hic_dictionary[0]['numpy_window'].shape[0]
     choose_arr = []
     for i in list(numpy_hic_dictionary.keys()):
         if np.count_nonzero(numpy_hic_dictionary[i]['numpy_window'])>mn**2/choose_scaler: #and check_select(i,numpy_hic_dictionary,window_scan_size):
             choose_arr += [i]
+
+    print(len(choose_arr))
     return choose_arr
 
 def vis_block(npdictin, enum_index_array, offset, squeeze=40):

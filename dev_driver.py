@@ -112,8 +112,6 @@ def writeFunctionCalls(jsonListOfDicts,databasePATH,**kwargs):
                 "metadata"     : metadata,
                 "toolsource"   : toolsource,
                 "featuretype"  : featuretype,
-                "celltype"     : celltype,
-                "experiment"   : experiment,
                 "key_id"       : index_offset}
         
             print(f".",end=" ")

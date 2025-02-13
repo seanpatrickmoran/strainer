@@ -211,11 +211,17 @@ def _writeManyToTable(dbPATH,timeout,**kwargs):
         return
     
     data = []
-    key_id = kwargs["key_id"]
-    image_np_dict,prefix_name, = kwargs["image_np_dict"],kwargs["prefix_name"]
-    resolution, hic_path, PUB_ID = kwargs["resolution"],kwargs["hic_path"],kwargs["PUB_ID"]
-    dataset,condition=kwargs["dataset"],kwargs["condition"],
-    norm=kwargs["norm"]
+    key_id        = kwargs["key_id"]
+    image_np_dict = kwargs["image_np_dict"]
+    prefix_name   = kwargs["prefix_name"]
+    resolution    = kwargs["resolution"]
+    hic_path      = kwargs["hic_path"]
+    PUB_ID        = kwargs["PUB_ID"]
+    dataset       = kwargs["dataset"]
+    condition     = kwargs["condition"]
+    norm          = kwargs["norm"] 
+    toolsource    = kwargs["toolsource"]
+    featuretype   = kwargs["featuretype"]
     for i in image_np_dict.keys():
         if len(data)>999:
             _write_db(data)
@@ -223,7 +229,8 @@ def _writeManyToTable(dbPATH,timeout,**kwargs):
         key_id+=1
         focus = image_np_dict[i]
         fields = extractor(focus, 'original coordinates', 'numpy_window', 'viewing_vmax',)
-        data += [C3Image4(key_id, f"{prefix_name}_#{i}", *[fields[k] for k in fields.keys()],focus['numpy_window'].shape[0],resolution,hic_path,PUB_ID,genome="hg38", dataset=dataset,condition=condition,norm=norm).entity]
+        # print(C3Image4(key_id, f"{prefix_name}_#{i}", *[fields[k] for k in fields.keys()],focus['numpy_window'].shape[0],resolution,hic_path,PUB_ID,genome="hg38", dataset=dataset,condition=condition,norm=norm).entity)
+        data += [C3Image4(key_id, f"{prefix_name}_#{i}", *[fields[k] for k in fields.keys()],focus['numpy_window'].shape[0],resolution,hic_path,PUB_ID,genome="hg38", dataset=dataset,condition=condition,norm=norm, toolsource=toolsource, featuretype=featuretype).entity]
     _write_db(data)
     return "", key_id
 
