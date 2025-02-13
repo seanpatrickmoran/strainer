@@ -43,6 +43,42 @@ def writeFunctionCalls(jsonListOfDicts,databasePATH,**kwargs):
         dimensions  = jDict["dimensions"]
         metadata    = jDict["meta-data"]
         nickname    = jDict["nickname"]
+        toolsource  = jDict["tool-source"]
+        featuretype = jDict["feat-type"]
+        celltype    = jDict["Sample"]
+        experiment  = jDict["Experiment Type(s)"]
+        
+
+# {'sqliteARGS': {'SIG-timeout': '10', 'touchSqlCmd': '_writeManyToTable'},
+#  'hic_path': '4DNFIIMZB6Y9',
+#  'resolution': '2000',
+#  'norm': 'NONE',
+#  'tool-source': 'mustache',
+#  'feat-type': 'loop',
+#  'dimensions': '64',
+#  'meta-data': {'description': 'Hi-C experiments on H1-hESC crosslinked with both FA and DSG, digested with DpnII.',
+#   'accession': '4DNESX75DD7R',
+#   'Experiment Set Type': 'Replicate',
+#   'Organism': 'H. sapiens',
+#   'Sample Type': 'stem cells',
+#   'Sample': 'H1-hESC (Tier 1)',
+#   'Experiment Type(s)': 'in situ Hi-C',
+#   'Modification Type': 'None',
+#   'Treatment Type': 'None',
+#   'Assay Details': 'Enzyme: DpnII',
+#   'PMCID': 'PMC8446342'},
+#  'author1': 'Akgol Oksuz B',
+#  'nickname': '4DNFIIMZB6Y9_2000_mustache',
+#  'featurePath': '/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/020925_MassCalls/4DNFIIMZB6Y9_2kb.tsv',
+#  'PUB_ID': 'PMC8446342',
+#  'dataset': 'H1-hESC (Tier 1)',
+#  'condition': 'in situ Hi-C',
+#  'drawer-name': '/2021/Akgol/H1-hESC/mustache/4DNFIIMZB6Y9_2000_mustache.tsv'}
+
+
+
+
+
         
         print(f"writing {nickname} entries to {databasePATH}",end="")
         hicViewDict = collect_numpy_matrices(hic_path, featurePath, norm, int(resolution), int(dimensions))
@@ -73,7 +109,11 @@ def writeFunctionCalls(jsonListOfDicts,databasePATH,**kwargs):
             "dataset"      : dataset,
             "condition"    : condition,
             "metadata"     : metadata,
-            "key_id" : index_offset}
+            "toolsource"   : toolsource,
+            "featuretype"  : featuretype,
+            "celltype"     : celltype,
+            "experiment"   : experiment,
+            "key_id"       : index_offset}
     
         print(f".",end=" ")
         _,resOffset = interact_table(databasePATH,int(sqliteARGS["SIG-timeout"]),sqliteARGS["touchSqlCmd"],**insert_kwargs)

@@ -44,18 +44,21 @@ class C3Image4:
                        "dataset": kwargs.get("dataset",""),
                        "condition": kwargs.get("condition",""),
                        "coordinates":self.coordinates,
-#                       maybe we convert the numpyarr into 4 channel images first?
                        "numpyarr": _narr.flatten().tobytes(),
-                       # "numpyarr": base64.b64encode(_narr.flatten().tobytes()).decode('utf-8'),
                        "viewing_vmax": viewing_vmax,
                        "dimensions": dimensions,
                        "resolution": resolution,
                        "hic_path": hic_path,
                        "PUB_ID": PUB_ID,
                        "norm": kwargs.get("norm",""),
+                       "tool-source":kwargs.get("toolsource",""),
+                       "feature-type": kwargs.get("featuretype",""),
+                       "cell-type": kwargs.get("celltype",""),
+                       "experiment": kwargs.get("experiment","")
                        "meta":json.dumps(kwargs)
                       }
-        
+
+
     def __repr__(self):
         val = self.entity["name"]
         return f"{val}"
