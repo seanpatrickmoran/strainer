@@ -201,7 +201,17 @@ def _cooler_collect_numpy_matrices(cooler_path, bedpath, norm="NONE", res=10000,
 #             if vmax_flagged<3:
 #                 hold_np[no]["viewing_vmax"] = vmax_flagged
 #             else:
+
+
+            hold_np[no]["true_max"] =np.max(_np_mat_)
             hold_np[no]["mumpy_window"],hold_np[no]["viewing_vmax"]=choose_vmax(_np_mat_)
+            hold_np[no]["hist_rel"]=np.zeros(256, dtype=np.int8)
+            hold_np[no]["hist_true"]=np.zeros(256, dtype=np.int8)
+            for i in _np_mat_.shape[0]:
+                for j in _np_mat_.shape[i][0]:
+                    hold_np[no]["hist_rel"][round(_np_mat_[i][j]/hold_np[no]["viewing_vmax"] *255)] += 1
+                    hold_np[no]["true_max"][round(_np_mat_[i][j]/hold_np[no]["true_max"]*255)] += 1
+
         return hold_np    
     
 

@@ -133,7 +133,7 @@ if __name__ == "__main__":
 
     #dbp = "/home/spmoran/temp_smoran/Canyons/122724_test_mass_sqlwrites/databse6_binary.db"
 #    dbp = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_8_bin.db"
-    dbp = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_10_bin.db"
+    dbp = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_11_bin.db"
     #vecdb = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/sql_vec.db"
  
     try:
