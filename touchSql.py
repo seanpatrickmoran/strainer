@@ -228,7 +228,7 @@ def _writeManyToTable(dbPATH,timeout,**kwargs):
             data = []
         key_id+=1
         focus = image_np_dict[i]
-        fields = extractor(focus, 'original coordinates', 'numpy_window', 'viewing_vmax', 'true_max','hist_rel','hist_true')
+        fields = extractor(focus, 'original coordinates', 'numpy_window', 'viewing_vmax', 'true_max', 'hist_rel', 'hist_true')
         # print(C3Image4(key_id, f"{prefix_name}_#{i}", *[fields[k] for k in fields.keys()],focus['numpy_window'].shape[0],resolution,hic_path,PUB_ID,genome="hg38", dataset=dataset,condition=condition,norm=norm).entity)
         data += [C3Image4(key_id, f"{prefix_name}_#{i}", *[fields[k] for k in fields.keys()],focus['numpy_window'].shape[0],resolution,hic_path,PUB_ID,genome="hg38", dataset=dataset,condition=condition,norm=norm, toolsource=toolsource, featuretype=featuretype).entity]
     _write_db(data)

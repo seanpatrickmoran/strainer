@@ -143,6 +143,16 @@ def _hic_collect_numpy_matrices(hic_path, bedpath, norm="NONE", res=10000, width
             
             hold_np[no] = {"original coordinates":[c1,x1,x2,c2,y1,y2], "window coordinates": [r1,r2,r3,r4], "numpy_window": _np_mat_, "mumpy_window": _np_mat_, "viewing_vmax":0}
             hold_np[no]["mumpy_window"],hold_np[no]["viewing_vmax"]=choose_vmax(_np_mat_)
+
+            hold_np[no]["true_max"] =np.max(_np_mat_)
+            hold_np[no]["mumpy_window"],hold_np[no]["viewing_vmax"]=choose_vmax(_np_mat_)
+            hold_np[no]["hist_rel"]=np.zeros(256, dtype=np.int8)
+            hold_np[no]["hist_true"]=np.zeros(256, dtype=np.int8)
+            for i in _np_mat_.shape[0]:
+                for j in _np_mat_.shape[i][0]:
+                    hold_np[no]["hist_rel"][round(_np_mat_[i][j]/hold_np[no]["viewing_vmax"] *255)] += 1
+                    hold_np[no]["true_max"][round(_np_mat_[i][j]/hold_np[no]["true_max"]*255)] += 1
+
         return hold_np   
     
     

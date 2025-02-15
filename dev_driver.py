@@ -121,6 +121,7 @@ def writeFunctionCalls(jsonListOfDicts,databasePATH,**kwargs):
 
         except Exception as e:
             print(e, index_offset)
+            print("dev_driver.py l:124")
             continue
 
 
