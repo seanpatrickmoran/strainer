@@ -116,10 +116,11 @@ def writeFunctionCalls(jsonListOfDicts,databasePATH,**kwargs):
         
             print(f".",end=" ")
             _,resOffset = interact_table(databasePATH,int(sqliteARGS["SIG-timeout"]),sqliteARGS["touchSqlCmd"],**insert_kwargs)
-            index_offset += resOffset
+            index_offset = resOffset+1 
             print(f"__@__@__@__@__@__")
 
-        except Exception:
+        except Exception as e:
+            print(e, index_offset)
             continue
 
 
@@ -131,7 +132,8 @@ if __name__ == "__main__":
 
 
     #dbp = "/home/spmoran/temp_smoran/Canyons/122724_test_mass_sqlwrites/databse6_binary.db"
-    dbp = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_8_bin.db"
+#    dbp = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_8_bin.db"
+    dbp = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_10_bin.db"
     #vecdb = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/sql_vec.db"
  
     try:
