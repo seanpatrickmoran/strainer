@@ -78,8 +78,9 @@ def writeFunctionCalls(jsonListOfDicts,databasePATH,**kwargs):
         
         print(f"writing {nickname} entries to {databasePATH}",end="")
         hicViewDict = collect_numpy_matrices(hic_path, featurePath, norm, int(resolution), int(dimensions))
-        
+
         try:
+            kwargs["choose_scaler"] = 2 if featuretype != "stripe" else 1.05
             populousIndices = only_populated_windows(hicViewDict,dimensions,choose_scaler=kwargs.get("choose_scaler",2))
             populousImgDict = {x:hicViewDict[x] for x in populousIndices}
 
