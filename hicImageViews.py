@@ -148,10 +148,15 @@ def _hic_collect_numpy_matrices(hic_path, bedpath, norm="NONE", res=10000, width
             hold_np[no]["mumpy_window"],hold_np[no]["viewing_vmax"]=choose_vmax(_np_mat_)
             hold_np[no]["hist_rel"]=np.zeros(256, dtype=np.int8)
             hold_np[no]["hist_true"]=np.zeros(256, dtype=np.int8)
-            for i in _np_mat_.shape[0]:
-                for j in _np_mat_.shape[i][0]:
-                    hold_np[no]["hist_rel"][round(_np_mat_[i][j]/hold_np[no]["viewing_vmax"] *255)] += 1
-                    hold_np[no]["true_max"][round(_np_mat_[i][j]/hold_np[no]["true_max"]*255)] += 1
+            for i in range(_np_mat_.shape[0]):
+                for j in range(_np_mat_.shape[1]):
+                    #make 0 or 255 if OOB, other round value.
+                    _n = round(_np_mat_[i][j]/hold_np[no]["viewing_vmax"] *255)
+                    rel_idx = _n if _n < 255 else 255 if _n < 0 else 0
+                    _n = round(_np_mat_[i][j]/hold_np[no]["true_max"] *255)
+                    true_idx = _n if _n < 255 else 255 if _n < 0 else 0
+                    hold_np[no]["hist_rel"][rel_idx] += 1
+                    hold_np[no]["hist_true"][true_idx] += 1
 
         return hold_np   
     
@@ -217,10 +222,15 @@ def _cooler_collect_numpy_matrices(cooler_path, bedpath, norm="NONE", res=10000,
             hold_np[no]["mumpy_window"],hold_np[no]["viewing_vmax"]=choose_vmax(_np_mat_)
             hold_np[no]["hist_rel"]=np.zeros(256, dtype=np.int8)
             hold_np[no]["hist_true"]=np.zeros(256, dtype=np.int8)
-            for i in _np_mat_.shape[0]:
-                for j in _np_mat_.shape[i][0]:
-                    hold_np[no]["hist_rel"][round(_np_mat_[i][j]/hold_np[no]["viewing_vmax"] *255)] += 1
-                    hold_np[no]["true_max"][round(_np_mat_[i][j]/hold_np[no]["true_max"]*255)] += 1
+            for i in range(_np_mat_.shape[0]):
+                for j in range(_np_mat_.shape[1]):
+                    #make 0 or 255 if OOB, other round value.
+                    _n = round(_np_mat_[i][j]/hold_np[no]["viewing_vmax"] *255)
+                    rel_idx = _n if _n < 255 else 255 if _n < 0 else 0
+                    _n = round(_np_mat_[i][j]/hold_np[no]["true_max"] *255)
+                    true_idx = _n if _n < 255 else 255 if _n < 0 else 0
+                    hold_np[no]["hist_rel"][rel_idx] += 1
+                    hold_np[no]["hist_true"][true_idx] += 1
 
         return hold_np    
     
