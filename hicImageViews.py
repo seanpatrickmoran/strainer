@@ -127,9 +127,9 @@ def _hic_collect_numpy_matrices(hic_path, bedpath, norm="NONE", res=10000, width
         for no,line in enumerate(f):
 #             print(line)
             c1,x1,x2,c2,y1,y2 = line.rstrip('\n').split('\t')[:6]
-#             if not c1.startswith("chr"):
-#                 c1="chr"+c1
-#                 c2="chr"+c2
+            if c1.startswith("chr"):
+                c1=c1.lstrip("chr")
+                c2=c2.lstrip("chr")
             if c1!=last_seen[0]:
                 _matrix_object_ = hic.getMatrixZoomData(c1, c2, "observed", "NONE", "BP", res)
                 last_seen.pop()

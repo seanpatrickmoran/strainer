@@ -113,14 +113,16 @@ def writeFunctionCalls(jsonListOfDicts,databasePATH,**kwargs):
 if __name__ == "__main__":
     #jsonPATH = "/nfs/turbo/umms-drjieliu/usr/temp_smoran/Canyons/122824_loops_2_json_write/122924_test_mustache_GM12878.json"
 #    jsonPATH = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/020925_MassCalls/021325_for_extended_DB.json"
-    jsonPATH = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/021625_massCalls_red/test_021625_reducedLoopCalls.json"
+#    jsonPATH = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/021625_massCalls_red/test_021625_reducedLoopCalls.json"
+    jsonPATH = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/021625_massCalls_red/021625_reduced_L+S.json"
+#    jsonPATH = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/021625_massCalls_red/021625_justStripes.json"
     with open(jsonPATH) as f:
         d = json.load(f)
 
 
     #dbp = "/home/spmoran/temp_smoran/Canyons/122724_test_mass_sqlwrites/databse6_binary.db"
 #    dbp = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_8_bin.db"
-    dbp = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_12_bin.db"
+    dbp = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_14_bin.db"
     #vecdb = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/sql_vec.db"
  
     try:
