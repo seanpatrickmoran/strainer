@@ -115,8 +115,13 @@ def _readSOURCE_writeVECTOR(dbPATH1, dbPATH2,timeout,**kwargs):
                         epigenomicFactors[i*2+1] = 0
                         continue
                     bw = pyBigWig.open(kwargs["registerPath"][_cellName][factors[i]])
-                    epigenomicFactors[i*2] = np.mean(*bw.stats(c1, x1, x2))
-                    epigenomicFactors[i*2+1] = np.mean(*bw.stats(c2, y1, y2))
+                    store1 = bw.stats(c1, x1, x2)
+                    print(store1)
+                    store2 = bw.stats(c2, y1, y2)
+                    if store1 != []:
+                        epigenomicFactors[i*2] = np.mean(store1)
+                    if store2 != []:
+                        epigenomicFactors[i*2+1] = np.mean(store2)
 
 
 
@@ -174,6 +179,7 @@ def _readSOURCE_writeVECTOR(dbPATH1, dbPATH2,timeout,**kwargs):
 
 
 def mainProg():
+    print('BOOTED')
     dbSOURCE = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/TEST_database_14_bin.db"
     dbTARGET = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_17_bin.db"
 
@@ -194,7 +200,7 @@ def mainProg():
         "GM12878":{x:"" for x in factor_registry},
         "K562":{x:"" for x in factor_registry}
     }
-
+    print("registering bigWig paths")
 
 
     for fkey in factor_registry:
@@ -202,6 +208,7 @@ def mainProg():
         registerPath["GM12878"][fkey]=f"/nfs/turbo/umms-drjieliu/proj/4dn/data/Epigenomic_Data/GM12878/GM12878_{fkey}_hg38.bigWig"
         registerPath["HFF"][fkey]=f"/nfs/turbo/umms-drjieliu/proj/4dn/data/Epigenomic_Data/human_tissues/foreskin_fibroblast/foreskin_fibroblast_{fkey}_hg38.bigWig"
         registerPath["K562"][fkey]=f"/nfs/turbo/umms-drjieliu/proj/4dn/data/Epigenomic_Data/human_tissues/K562/K562_{fkey}_hg38.bigWig"
+        print(f".. init {fkey}")
 
     registerPath["K562"]["H3K36me3"] = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/021725_with_epi/ENCFF633OZC.bigWig"
     registerPath["K562"]["H3K9ac"] = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/021725_with_epi/ENCFF178QDA.bigWig"
@@ -214,10 +221,13 @@ def mainProg():
     registerPath["HFF"]["H3K36me3"]="/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/021725_with_epi/ENCFF431XVV.bigWig"
 
     for key in registerPath.keys():
+        print(f".Checking {key}")
         for fkey in factor_registry:
+            print(f"... {fkey}")
             if registerPath[key][fkey]=="":
                 continue
             assert os.path.isfile(registerPath[key][fkey]), "FileNotFoundError: path: " + registerPath[key][fkey] + "does not point to valid or readable bigWig file"
+    print("checks passed",end="\n\n")
 
     inverseTableCell= {
         "HFFc6 (Tier 1)" : "HFF",
@@ -237,7 +247,7 @@ def mainProg():
 
     for key in [y for y in range(1,23)]+["X"]:
         binary_search_CTCF[f"chr{key}"].sort(key=lambda x: x[2])
-
+    print("binary search tree ready")
 
 
 
@@ -251,7 +261,7 @@ def mainProg():
     #check length of table
 
     insert_kwargs = {
-        "limit": 8,
+        "limit": 8192,
         "offset": 0,
         "inverseTableCell": inverseTableCell,
         "binary_search_CTCF": binary_search_CTCF,
