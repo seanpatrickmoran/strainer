@@ -101,7 +101,7 @@ def writeFunctionCalls(jsonListOfDicts,databasePATH,**kwargs):
         
             print(f".",end=" ")
             _,resOffset = interact_table(databasePATH,int(sqliteARGS["SIG-timeout"]),sqliteARGS["touchSqlCmd"],**insert_kwargs)
-            index_offset = resOffset+1 
+            index_offset = resOffset
             print(f"__@__@__@__@__@__")
 
         except Exception as e:
