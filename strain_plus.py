@@ -97,7 +97,6 @@ def _readSOURCE_writeVECTOR(dbPATH1, dbPATH2,timeout,**kwargs):
                 y2=int(_y2)
                 
                 
-                epigenomicFactors = np.array([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], dtype=float)
                 factors = ["CTCF", 
                    "H3K27ac", 
                    "H3K27me3", 
@@ -106,23 +105,47 @@ def _readSOURCE_writeVECTOR(dbPATH1, dbPATH2,timeout,**kwargs):
                    "H3K36me3",
                    "H3K4me1",
                    "H3K9ac"]
+
+                #use nBins
+                nBins = 5
+                epigenomicFactors = np.array([0]*nBins*2*len(factors), dtype=float)
                 
                 #get the file from inverseTableCell
                 _cellName = kwargs["inverseTableCell"][dataset]                
                 for i in range(8):
+                    """
+                     <X-bins> | <Y-bins>
+                    [0,0,0,0,0,0,0,0,0,0, <CTCF>
+                     0,0,0,0,0,0,0,0,0,0, <H3K27ac>
+                     0,0,0,0,0,0,0,0,0,0, <H3K27me3>
+                     0,0,0,0,0,0,0,0,0,0, <H3K9me3>
+                     0,0,0,0,0,0,0,0,0,0, <H2AFZ>
+                     0,0,0,0,0,0,0,0,0,0, <H3K36me3>
+                     0,0,0,0,0,0,0,0,0,0, <H3K4me1>
+                     0,0,0,0,0,0,0,0,0,0] <H3K9ac>
+                    """
                     if kwargs["registerPath"][_cellName][factors[i]]=="":
                         epigenomicFactors[i*2] = 0
-                        epigenomicFactors[i*2+1] = 0
+                        epigenomicFactors[i*2+nBins] = 0
                         continue
                     bw = pyBigWig.open(kwargs["registerPath"][_cellName][factors[i]])
-                    store1 = bw.stats(c1, x1, x2)
-                    print(store1)
-                    store2 = bw.stats(c2, y1, y2)
+                    _midpoint = x1+(x2-x1)//2
+                    # store1 = bw.stats(c1, x1, x2, nBins=nBins)
+                    store1 = bw.stats(c1, _midpoint-int(resolution)//2-int(resolution)*2, _midpoint+int(resolution)//2+int(resolution)*2, nBins=nBins)
+                    _midpoint = y1+(y2-y1)//2
+                    # store2 = bw.stats(c2, y1, y2)
+                    store2 = bw.stats(c2, _midpoint-int(resolution)//2-int(resolution)*2, _midpoint+int(resolution)//2+int(resolution)*2, nBins=nBins)
                     if store1 != []:
-                        epigenomicFactors[i*2] = np.mean(store1)
+               #          for j in range(len(store1)):
+                        for j in range(nBins):
+                            epigenomicFactors[i*(2*nBins)+j] = store1[j]
+                        # epigenomicFactors[i*2] = np.mean(store1)
                     if store2 != []:
-                        epigenomicFactors[i*2+1] = np.mean(store2)
-
+                        print("b")
+                        for j in range(nBins):
+                            print(i*(2*nBins)+j+nBins,end=", ")
+                            epigenomicFactors[i*(2*nBins)+j+nBins] = store2[j]
+                        # epigenomicFactors[i*2+1] = np.mean(store2)
 
 
                 # key_id, name, dataset, condition, coordinates, numpyarr, viewing_vmax, true_max, hist_rel, hist_true, dimensions, hic_path, PUB_ID, resolution, norm, toolsource, featuretype, epigenomicFactors, meta = en
@@ -181,7 +204,7 @@ def _readSOURCE_writeVECTOR(dbPATH1, dbPATH2,timeout,**kwargs):
 def mainProg():
     print('BOOTED')
     dbSOURCE = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/TEST_database_14_bin.db"
-    dbTARGET = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_17_bin.db"
+    dbTARGET = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_18_bin.db"
 
 
     factor_registry = ["CTCF", 
@@ -279,5 +302,6 @@ if __name__ == "__main__":
     now = datetime.datetime.now()
     mainProg();
     print(datetime.datetime.now() - now)
+
 
 
