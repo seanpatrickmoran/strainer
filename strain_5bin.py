@@ -201,8 +201,10 @@ def _readSOURCE_writeVECTOR(dbPATH1, dbPATH2,timeout,**kwargs):
 
 def mainProg():
     print('BOOTED')
-    dbSOURCE = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/TEST_database_14_bin.db"
-    dbTARGET = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_18_bin.db"
+    dbSOURCE = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/debug_database_20_bin.db"
+    dbTARGET = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_22_5bin.db"
+    # dbSOURCE = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/TEST_database_14_bin.db"
+    # dbTARGET = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_18_bin.db"
 
 
     factor_registry = ["CTCF", 

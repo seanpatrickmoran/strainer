@@ -138,7 +138,9 @@ def _hic_collect_numpy_matrices(hic_path, bedpath, norm="NONE", res=10000, width
 #             r1,r2,r3,r4 = target_square_windowing(x1,x2,y1,y2,res)                
             r1,r2,r3,r4 = windowing(x1,x2,y1,y2,res,width)
             _np_mat_ = _matrix_object_.getRecordsAsMatrix(r1,r2,r3,r4) 
-            if not unrestricted and _np_mat_.shape==(1,1):
+            if r1<0 or r3<0:
+                continue
+            if not unrestricted and _np_mat_.shape!=(width+1,width+1):
                 continue
             
             hold_np[no] = {"original coordinates":[c1,x1,x2,c2,y1,y2], "window coordinates": [r1,r2,r3,r4], "numpy_window": _np_mat_, "mumpy_window": _np_mat_, "viewing_vmax":0}
@@ -204,8 +206,10 @@ def _cooler_collect_numpy_matrices(cooler_path, bedpath, norm="NONE", res=10000,
 
 #             r1,r2,r3,r4 = target_square_windowing(x1,x2,y1,y2,res)                        
             r1,r2,r3,r4 = windowing(x1,x2,y1,y2,res,width)
+            if r1<0 or r3<0:
+                continue
             _np_mat_ = _mat_obj_[r1//res:r2//res,r3//res:r4//res]
-            if not unrestricted and _np_mat_.shape==(1,1):
+            if not unrestricted and _np_mat_.shape!=(width+1,width+1):
                 continue
             
             _np_mat_[np.isnan(_np_mat_)]=0
