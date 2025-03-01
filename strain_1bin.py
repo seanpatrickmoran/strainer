@@ -107,7 +107,7 @@ def _readSOURCE_writeVECTOR(dbPATH1, dbPATH2,timeout,**kwargs):
                    "H3K9ac"]
 
                 #use nBins
-                nBins = 5
+                nBins = 1
                 epigenomicFactors = np.array([0]*nBins*2*len(factors), dtype=float)
                 
                 #get the file from inverseTableCell

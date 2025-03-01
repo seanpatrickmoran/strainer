@@ -107,7 +107,7 @@ def _readSOURCE_writeVECTOR(dbPATH1, dbPATH2,timeout,**kwargs):
                    "H3K9ac"]
 
                 #use nBins
-                nBins = 5
+                nBins = 11
                 epigenomicFactors = np.array([0]*nBins*2*len(factors), dtype=float)
                 
                 #get the file from inverseTableCell
@@ -202,7 +202,7 @@ def _readSOURCE_writeVECTOR(dbPATH1, dbPATH2,timeout,**kwargs):
 def mainProg():
     print('BOOTED')
     dbSOURCE = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/TEST_database_14_bin.db"
-    dbTARGET = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_17_bin.db"
+    dbTARGET = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_19_bin.db"
 
 
     factor_registry = ["CTCF", 
