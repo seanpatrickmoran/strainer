@@ -89,98 +89,106 @@ def _readSOURCE_writeVECTOR(dbPATH1, dbPATH2,timeout,**kwargs):
             cursor_s.execute("SELECT * FROM imag LIMIT ? OFFSET ?", (limit,offset))
 #             data = []
             for en in cursor_s.fetchall():
-                key_id, name, dataset, condition, coordinates, numpyarr, viewing_vmax, true_max, hist_rel, hist_true, dimensions, hic_path, PUB_ID, resolution, norm, toolsource, featuretype, meta = en
-                c1,_x1,_x2,c2,_y1,_y2=coordinates.split(",")
-                x1=int(_x1)
-                x2=int(_x2)
-                y1=int(_y1)
-                y2=int(_y2)
-                
-                
-                factors = ["CTCF", 
-                   "H3K27ac", 
-                   "H3K27me3", 
-                   "H3K9me3",
-                   "H2AFZ",
-                   "H3K36me3",
-                   "H3K4me1",
-                   "H3K9ac"]
+                try:
+                    key_id, name, dataset, condition, coordinates, numpyarr, viewing_vmax, true_max, hist_rel, hist_true, dimensions, hic_path, PUB_ID, resolution, norm, toolsource, featuretype, meta = en
+                    c1,_x1,_x2,c2,_y1,_y2=coordinates.split(",")
+                    x1=int(_x1)
+                    x2=int(_x2)
+                    y1=int(_y1)
+                    y2=int(_y2)
+                    
+                    
+                    factors = ["CTCF", 
+                       "H3K27ac", 
+                       "H3K27me3", 
+                       "H3K9me3",
+                       "H2AFZ",
+                       "H3K36me3",
+                       "H3K4me1",
+                       "H3K9ac"]
 
-                #use nBins
-                nBins = 1
-                epigenomicFactors = np.array([0]*nBins*2*len(factors), dtype=float)
-                
-                #get the file from inverseTableCell
-                _cellName = kwargs["inverseTableCell"][dataset]                
-                for i in range(len(factors)):
-                    """ nBins = 5 example
-                     <X-bins> | <Y-bins>
-                    [0,0,0,0,0,0,0,0,0,0, <CTCF>
-                     0,0,0,0,0,0,0,0,0,0, <H3K27ac>
-                     0,0,0,0,0,0,0,0,0,0, <H3K27me3>
-                     0,0,0,0,0,0,0,0,0,0, <H3K9me3>
-                     0,0,0,0,0,0,0,0,0,0, <H2AFZ>
-                     0,0,0,0,0,0,0,0,0,0, <H3K36me3>
-                     0,0,0,0,0,0,0,0,0,0, <H3K4me1>
-                     0,0,0,0,0,0,0,0,0,0] <H3K9ac>
-                    """
-                    if kwargs["registerPath"][_cellName][factors[i]]=="":
-                        epigenomicFactors[i*2] = 0
-                        epigenomicFactors[i*2+nBins] = 0
-                        continue
-                    bw = pyBigWig.open(kwargs["registerPath"][_cellName][factors[i]])
-                    _midpoint = x1+(x2-x1)//2
-                    # store1 = bw.stats(c1, x1, x2, nBins=nBins)
-                    store1 = bw.stats(c1, _midpoint-int(resolution)//2-int(resolution)*2, _midpoint+int(resolution)//2+int(resolution)*2, nBins=nBins)
-                    _midpoint = y1+(y2-y1)//2
-                    # store2 = bw.stats(c2, y1, y2)
-                    store2 = bw.stats(c2, _midpoint-int(resolution)//2-int(resolution)*2, _midpoint+int(resolution)//2+int(resolution)*2, nBins=nBins)
-                    if store1 != []:
-               #          for j in range(len(store1)):
-                        for j in range(nBins):
-                            epigenomicFactors[i*(2*nBins)+j] = store1[j]
-                        # epigenomicFactors[i*2] = np.mean(store1)
-                    if store2 != []:
-                        for j in range(nBins):
-                            epigenomicFactors[i*(2*nBins)+j+nBins] = store2[j]
-                        # epigenomicFactors[i*2+1] = np.mean(store2)
+                    #use nBins
+                    nBins = 1
+                    epigenomicFactors = np.array([0]*nBins*2*len(factors), dtype=float)
+                    
+                    #get the file from inverseTableCell
+                    _cellName = kwargs["inverseTableCell"][dataset]                
+                    for i in range(len(factors)):
+                        """ nBins = 5 example
+                         <X-bins> | <Y-bins>
+                        [0,0,0,0,0,0,0,0,0,0, <CTCF>
+                         0,0,0,0,0,0,0,0,0,0, <H3K27ac>
+                         0,0,0,0,0,0,0,0,0,0, <H3K27me3>
+                         0,0,0,0,0,0,0,0,0,0, <H3K9me3>
+                         0,0,0,0,0,0,0,0,0,0, <H2AFZ>
+                         0,0,0,0,0,0,0,0,0,0, <H3K36me3>
+                         0,0,0,0,0,0,0,0,0,0, <H3K4me1>
+                         0,0,0,0,0,0,0,0,0,0] <H3K9ac>
+                        """
+                        if kwargs["registerPath"][_cellName][factors[i]]=="" or x1+(x2-x1)//2-int(resolution)*2.5<0 or y1+(y2-y1)//2-int(resolution)*2.5 < 0:
+                            continue
+                        try:
+                            bw = pyBigWig.open(kwargs["registerPath"][_cellName][factors[i]])
+                            _midpoint = x1+(x2-x1)//2
+                            # store1 = bw.stats(c1, x1, x2, nBins=nBins)
+                            store1 = bw.stats(c1, _midpoint-int(resolution)//2-int(resolution)*2, _midpoint+int(resolution)//2+int(resolution)*2, nBins=nBins)
+                            _midpoint = y1+(y2-y1)//2
+                            # store2 = bw.stats(c2, y1, y2)
+                            store2 = bw.stats(c2, _midpoint-int(resolution)//2-int(resolution)*2, _midpoint+int(resolution)//2+int(resolution)*2, nBins=nBins)
+                            if store1 != []:
+               #                  for j in range(len(store1)):
+                                for j in range(nBins):
+                                    epigenomicFactors[i*(2*nBins)+j] = store1[j]
+                                # epigenomicFactors[i*2] = np.mean(store1)
+                            if store2 != []:
+                                for j in range(nBins):
+                                    epigenomicFactors[i*(2*nBins)+j+nBins] = store2[j]
+                                # epigenomicFactors[i*2+1] = np.mean(store2)
+                        except Exception as e:
+                            print(f"{e}, pyBW issue, set to zero and bypassing")
+                            continue
+
+                    # key_id, name, dataset, condition, coordinates, numpyarr, viewing_vmax, true_max, hist_rel, hist_true, dimensions, hic_path, PUB_ID, resolution, norm, toolsource, featuretype, epigenomicFactors, meta = en
+
+                    xDirectional = ""
+                    yDirectional = ""
+
+    #                 b = bytearray()
+    #                 b.extend(map(ord, s))
+
+                    xPivot = binary_search_motif(c1, x1)
+                    yPivot = binary_search_motif(c2, y1)
 
 
-                # key_id, name, dataset, condition, coordinates, numpyarr, viewing_vmax, true_max, hist_rel, hist_true, dimensions, hic_path, PUB_ID, resolution, norm, toolsource, featuretype, epigenomicFactors, meta = en
-
-                xDirectional = ""
-                yDirectional = ""
-
-    #             b = bytearray()
-    #             b.extend(map(ord, s))
-
-                xPivot = binary_search_motif(c1, x1)
-                yPivot = binary_search_motif(c2, y1)
-
-
-                while xPivot<len(kwargs["binary_search_CTCF"][c1]) and int(kwargs["binary_search_CTCF"][c1][xPivot][2])<x2 :
-                    while int(kwargs["binary_search_CTCF"][c1][xPivot][3])<x1 and xPivot<len(kwargs["binary_search_CTCF"][c1])-1:
+                    while xPivot<len(kwargs["binary_search_CTCF"][c1]) and int(kwargs["binary_search_CTCF"][c1][xPivot][2])<x2 :
+                        while int(kwargs["binary_search_CTCF"][c1][xPivot][3])<x1 and xPivot<len(kwargs["binary_search_CTCF"][c1])-1:
+                            xPivot+=1
+    #                     b.extend(bytes(ord(dmapped[binary_search_CTCF[c1][xPivot][4]])))
+                        if xPivot>=len(kwargs["binary_search_CTCF"][c1]):
+                            break
+                        xDirectional+=dmapped[kwargs["binary_search_CTCF"][c1][xPivot][4]]
                         xPivot+=1
-    #                 b.extend(bytes(ord(dmapped[binary_search_CTCF[c1][xPivot][4]])))
-                    if xPivot>=len(kwargs["binary_search_CTCF"][c1]):
-                        break
-                    xDirectional+=dmapped[kwargs["binary_search_CTCF"][c1][xPivot][4]]
-                    xPivot+=1
 
 
-                while yPivot<len(kwargs["binary_search_CTCF"][c2]) and int(kwargs["binary_search_CTCF"][c2][yPivot][2])<=y2:
-                    while int(kwargs["binary_search_CTCF"][c2][yPivot][3])<y1 and yPivot<len(kwargs["binary_search_CTCF"][c2])-1:
+                    while yPivot<len(kwargs["binary_search_CTCF"][c2]) and int(kwargs["binary_search_CTCF"][c2][yPivot][2])<=y2:
+                        while int(kwargs["binary_search_CTCF"][c2][yPivot][3])<y1 and yPivot<len(kwargs["binary_search_CTCF"][c2])-1:
+                            yPivot+=1
+    #                         b.extend(bytes(ord(dmapped[kwargs["binary_search_CTCF"][c2][yPivot][4]])))
+                        if yPivot>=len(kwargs["binary_search_CTCF"][c2]):
+                            break
+                        yDirectional+=dmapped[kwargs["binary_search_CTCF"][c2][yPivot][4]]
                         yPivot+=1
-    #                     b.extend(bytes(ord(dmapped[kwargs["binary_search_CTCF"][c2][yPivot][4]])))
-                    if yPivot>=len(kwargs["binary_search_CTCF"][c2]):
-                        break
-                    yDirectional+=dmapped[kwargs["binary_search_CTCF"][c2][yPivot][4]]
-                    yPivot+=1
 
 
-                motifDirection = xDirectional+":"+yDirectional
+                    motifDirection = xDirectional+":"+yDirectional
+                    
+                    cursor_t.execute("INSERT INTO imag(key_id, name, dataset, condition, coordinates, numpyarr, viewing_vmax, true_max, hist_rel, hist_true, dimensions, hic_path, PUB_ID, resolution, norm, toolsource, featuretype, epigenomicFactors, motifDirection, meta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [key_id, name, dataset, condition, coordinates, numpyarr, viewing_vmax, true_max, hist_rel, hist_true, dimensions, hic_path, PUB_ID, resolution, norm, toolsource, featuretype, epigenomicFactors.tobytes(), motifDirection, meta],)
                 
-                cursor_t.execute("INSERT INTO imag(key_id, name, dataset, condition, coordinates, numpyarr, viewing_vmax, true_max, hist_rel, hist_true, dimensions, hic_path, PUB_ID, resolution, norm, toolsource, featuretype, epigenomicFactors, motifDirection, meta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [key_id, name, dataset, condition, coordinates, numpyarr, viewing_vmax, true_max, hist_rel, hist_true, dimensions, hic_path, PUB_ID, resolution, norm, toolsource, featuretype, epigenomicFactors.tobytes(), motifDirection, meta],)
+                except Exception as e:    
+                    template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+                    message = template.format(type(e).__name__, e.args)
+                    print(message)
+                    print(e)
 
             print(f"success")
         except Exception as e:
@@ -202,7 +210,7 @@ def _readSOURCE_writeVECTOR(dbPATH1, dbPATH2,timeout,**kwargs):
 def mainProg():
     print('BOOTED')
     dbSOURCE = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/debug_database_20_bin.db"
-    dbTARGET = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_21_1bin.db"
+    dbTARGET = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/012625_changeDBcalls/DB_DUMP/database_24_1bin.db"
 
 
     factor_registry = ["CTCF", 

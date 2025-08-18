@@ -1,0 +1,270 @@
+BOOTED
+registering bigWig paths
+.. init CTCF
+.. init H3K27ac
+.. init H3K27me3
+.. init H3K9me3
+.. init H2AFZ
+.. init H3K36me3
+.. init H3K4me1
+.. init H3K9ac
+.Checking H1
+... CTCF
+... H3K27ac
+... H3K27me3
+... H3K9me3
+... H2AFZ
+... H3K36me3
+... H3K4me1
+... H3K9ac
+.Checking HFF
+... CTCF
+... H3K27ac
+... H3K27me3
+... H3K9me3
+... H2AFZ
+... H3K36me3
+... H3K4me1
+... H3K9ac
+.Checking GM12878
+... CTCF
+... H3K27ac
+... H3K27me3
+... H3K9me3
+... H2AFZ
+... H3K36me3
+... H3K4me1
+... H3K9ac
+.Checking K562
+... CTCF
+... H3K27ac
+... H3K27me3
+... H3K9me3
+... H2AFZ
+... H3K36me3
+... H3K4me1
+... H3K9ac
+checks passed
+
+binary search tree ready
+table make; success
+success
+0:02:01.146359 2025-03-01 10:39:13.558207
+8192 8192
+success
+0:02:06.186210 2025-03-01 10:41:19.744437
+16384 8192
+success
+0:02:11.329680 2025-03-01 10:43:31.074133
+24576 8192
+success
+0:02:16.114609 2025-03-01 10:45:47.188757
+32768 8192
+success
+0:02:25.261436 2025-03-01 10:48:12.450208
+40960 8192
+success
+0:02:56.919039 2025-03-01 10:51:09.369262
+49152 8192
+success
+0:03:03.188929 2025-03-01 10:54:12.558208
+57344 8192
+success
+0:03:08.408736 2025-03-01 10:57:20.966960
+65536 8192
+success
+0:03:11.915609 2025-03-01 11:00:32.882585
+73728 8192
+success
+0:03:14.050476 2025-03-01 11:03:46.933077
+81920 8192
+success
+0:03:09.884508 2025-03-01 11:06:56.817601
+90112 8192
+Invalid interval bounds!
+0:01:17.391857 2025-03-01 11:08:14.209474
+98304 8192
+success
+0:01:11.776620 2025-03-01 11:09:25.986109
+106496 8192
+0:33:20.666672
+BOOTED
+registering bigWig paths
+.. init CTCF
+.. init H3K27ac
+.. init H3K27me3
+.. init H3K9me3
+.. init H2AFZ
+.. init H3K36me3
+.. init H3K4me1
+.. init H3K9ac
+.Checking H1
+... CTCF
+... H3K27ac
+... H3K27me3
+... H3K9me3
+... H2AFZ
+... H3K36me3
+... H3K4me1
+... H3K9ac
+.Checking HFF
+... CTCF
+... H3K27ac
+... H3K27me3
+... H3K9me3
+... H2AFZ
+... H3K36me3
+... H3K4me1
+... H3K9ac
+.Checking GM12878
+... CTCF
+... H3K27ac
+... H3K27me3
+... H3K9me3
+... H2AFZ
+... H3K36me3
+... H3K4me1
+... H3K9ac
+.Checking K562
+... CTCF
+... H3K27ac
+... H3K27me3
+... H3K9me3
+... H2AFZ
+... H3K36me3
+... H3K4me1
+... H3K9ac
+checks passed
+
+binary search tree ready
+table make; success
+success
+0:03:18.898801 2025-03-01 11:13:47.855628
+8192 8192
+success
+0:03:43.708414 2025-03-01 11:17:31.564062
+16384 8192
+success
+0:03:40.949093 2025-03-01 11:21:12.513172
+24576 8192
+success
+0:03:22.215004 2025-03-01 11:24:34.728192
+32768 8192
+success
+0:03:00.604215 2025-03-01 11:27:35.332422
+40960 8192
+success
+0:03:41.082940 2025-03-01 11:31:16.415378
+49152 8192
+success
+0:03:38.898394 2025-03-01 11:34:55.313787
+57344 8192
+success
+0:03:53.660622 2025-03-01 11:38:48.974425
+65536 8192
+success
+0:03:59.786607 2025-03-01 11:42:48.762710
+73728 8192
+success
+0:04:04.296810 2025-03-01 11:46:53.059534
+81920 8192
+success
+0:03:51.238859 2025-03-01 11:50:44.298409
+90112 8192
+Invalid interval bounds!
+0:01:20.103215 2025-03-01 11:52:04.401639
+98304 8192
+success
+0:01:15.731405 2025-03-01 11:53:20.133060
+106496 8192
+0:43:54.001355
+BOOTED
+registering bigWig paths
+.. init CTCF
+.. init H3K27ac
+.. init H3K27me3
+.. init H3K9me3
+.. init H2AFZ
+.. init H3K36me3
+.. init H3K4me1
+.. init H3K9ac
+.Checking H1
+... CTCF
+... H3K27ac
+... H3K27me3
+... H3K9me3
+... H2AFZ
+... H3K36me3
+... H3K4me1
+... H3K9ac
+.Checking HFF
+... CTCF
+... H3K27ac
+... H3K27me3
+... H3K9me3
+... H2AFZ
+... H3K36me3
+... H3K4me1
+... H3K9ac
+.Checking GM12878
+... CTCF
+... H3K27ac
+... H3K27me3
+... H3K9me3
+... H2AFZ
+... H3K36me3
+... H3K4me1
+... H3K9ac
+.Checking K562
+... CTCF
+... H3K27ac
+... H3K27me3
+... H3K9me3
+... H2AFZ
+... H3K36me3
+... H3K4me1
+... H3K9ac
+checks passed
+
+binary search tree ready
+table make; success
+success
+0:03:23.128563 2025-03-01 11:57:46.196694
+8192 8192
+success
+0:03:55.319877 2025-03-01 12:01:41.516589
+16384 8192
+success
+0:04:24.019462 2025-03-01 12:06:05.536066
+24576 8192
+success
+0:04:41.531140 2025-03-01 12:10:47.067220
+32768 8192
+success
+0:04:48.306691 2025-03-01 12:15:35.373927
+40960 8192
+success
+0:04:41.990271 2025-03-01 12:20:17.364214
+49152 8192
+success
+0:03:57.493884 2025-03-01 12:24:14.858113
+57344 8192
+success
+0:04:55.561344 2025-03-01 12:29:10.419472
+65536 8192
+success
+0:05:08.545874 2025-03-01 12:34:18.965362
+73728 8192
+success
+0:05:03.393959 2025-03-01 12:39:22.359335
+81920 8192
+success
+0:04:49.937547 2025-03-01 12:44:12.296895
+90112 8192
+Invalid interval bounds!
+0:01:25.717708 2025-03-01 12:45:38.014698
+98304 8192
+success
+0:01:22.139836 2025-03-01 12:47:00.154552
+106496 8192
+0:53:39.874207
