@@ -106,18 +106,18 @@ def writeFunctionCalls(jsonListOfDicts,databasePATH,**kwargs):
 
         except Exception as e:
             print(e, index_offset)
-            print("dev_driver.py l:124")
+            print("dev_driver.py l:109")
             continue
 
 
 if __name__ == "__main__":
-    jsonPATH = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/040925_downsamplings/041025_downsampledLoopCalls.json"
-    # jsonPATH = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/021324_strainer/quaggaDebug.json"
+    jsonPATH = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/081825_v2/Form_JSON/081825_fixed_seqwindow_loops.json"
+    # jsonPATH = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/040925_downsamplings/041025_downsampledLoopCalls.json"
     with open(jsonPATH) as f:
         d = json.load(f)
 
-    dbp = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/041025_calbirate_seq_depth/downsamplings.db"
- 
+    dbp = "/nfs/turbo/umms-drjieliu/proj/3C-FeatExt/081825_v2/DB_DUMP/base_database_30_bin.db"
+
     try:
         if not interact_table(dbp,10,"_check_head"):
             interact_table(dbp,10,"_createTable")
