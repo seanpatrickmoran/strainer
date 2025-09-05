@@ -404,7 +404,7 @@ class UnifiedHiCPipeline:
         cursor = conn.cursor()
         
         cursor.execute("""
-            CREATE TABLE IF NOT EXISTS imag (
+            CREATE TABLE IF NOT EXISTS imag_with_seqs (
                 key_id INTEGER PRIMARY KEY,
                 name TEXT,
                 dataset TEXT,
@@ -434,7 +434,7 @@ class UnifiedHiCPipeline:
                 key_id INTEGER PRIMARY KEY,
                 source_file TEXT,
                 source_row INTEGER,
-                FOREIGN KEY (key_id) REFERENCES imag(key_id)
+                FOREIGN KEY (key_id) REFERENCES imag_with_seqs(key_id)
             )
         """)
         
@@ -534,7 +534,7 @@ class UnifiedHiCPipeline:
                         if len(batch_data) >= batch_size:
                             try:
                                 cursor.executemany("""
-                                    INSERT INTO imag VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                    INSERT INTO imag_with_seqs VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                                 """, batch_data)
                                 
                                 cursor.executemany("""
@@ -553,7 +553,7 @@ class UnifiedHiCPipeline:
                                 for record in batch_data:
                                     try:
                                         cursor.execute("""
-                                            INSERT INTO imag VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                            INSERT INTO imag_with_seqs VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                                         """, record)
                                     except Exception as e2:
                                         print(f"      Failed to write record {record[0]}: {e2}")
@@ -565,7 +565,7 @@ class UnifiedHiCPipeline:
             if batch_data:
                 try:
                     cursor.executemany("""
-                        INSERT INTO imag VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        INSERT INTO imag_with_seqs VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """, batch_data)
                     
                     cursor.executemany("""
@@ -581,7 +581,7 @@ class UnifiedHiCPipeline:
                     for record in batch_data:
                         try:
                             cursor.execute("""
-                                INSERT INTO imag VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                INSERT INTO imag_with_seqs VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                             """, record)
                         except Exception as e2:
                             print(f"    Failed to write record {record[0]}: {e2}")
@@ -599,7 +599,6 @@ class UnifiedHiCPipeline:
         print(f"Database saved to: {output_db}")
         print(f"Feature mapping saved to: {mapping_path}")
         print(f"Total images processed: {self.current_key_id - 1}")
-
 
 def main():
     if len(sys.argv) < 2:
