@@ -442,7 +442,7 @@ class UnifiedHiCPipeline:
         conn.close()
 
     def run(self, output_db: str):
-        """Execute the full pipeline"""
+        """Execute the full pipeline with batch writing"""
         print("Starting unified Hi-C image pipeline...")
         
         # Create output database
@@ -450,82 +450,145 @@ class UnifiedHiCPipeline:
         conn = sqlite3.connect(output_db)
         cursor = conn.cursor()
         
-        # Process each dataset
-        for dataset in self.config.get('datasets', []):
-            print(f"\nProcessing dataset: {dataset['name']}")
-            
-            hic_path = dataset['hic_path']
-            feature_path = dataset['feature_path']
-            
-            # Get resolutions and options
-            resolutions = dataset.get('resolutions', DEFAULT_RESOLUTIONS)
-            genome = dataset.get('genome', 'hg38')
-            norm = dataset.get('options', {}).get('norm', 'NONE')
-            toolsource = dataset.get('options', {}).get('toolsource', 'unknown')
-            featuretype = dataset.get('options', {}).get('featuretype', 'unknown')
-            
-            # Validate dimensions
-            dimensions = self.validate_dimensions(resolutions)
-            
-            # Process each resolution
-            for resolution in resolutions:
-                print(f"  Processing resolution: {resolution}bp")
-                dimension = dimensions[resolution]
-                
-                # Process Hi-C file
-                image_dict = self.process_hic_file(
-                    hic_path, feature_path, resolution, dimension, norm
-                )
-                
-                # Write to database
-                for key_id, data in image_dict.items():
-                    coords = data['coordinates']
-                    coord_str = f"{coords[0]},{coords[1]},{coords[2]},{coords[3]},{coords[4]},{coords[5]}"
-                    
-                    # Extract sequences if genome file available
-                    seq_a, seq_b = self.extract_sequences(coords, genome)
-                    
-                    # Prepare metadata
-                    meta = json.dumps({
-                        'genome': genome,
-                        'feature_source': data['feature_source'],
-                        'dataset_name': dataset['name']
-                    })
-                    
-                    # Insert into database
-                    cursor.execute("""
-                        INSERT INTO imag_with_seq VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    """, (
-                        key_id,
-                        f"{dataset['name']}_{resolution}_{key_id}",
-                        dataset.get('dataset', dataset['name']),
-                        dataset.get('condition', ''),
-                        coord_str,
-                        data['numpy_window'].tobytes(),
-                        data['viewing_vmax'],
-                        data['true_max'],
-                        data['hist_rel'].tobytes(),
-                        data['hist_true'].tobytes(),
-                        dimension,
-                        hic_path,
-                        resolution,
-                        norm,
-                        seq_a,
-                        seq_b,
-                        toolsource,
-                        featuretype,
-                        '',
-                        meta
-                    ))
-                    
-                    # Add feature mapping
-                    source_parts = data['feature_source'].split(':')
-                    cursor.execute("""
-                        INSERT INTO feature_mapping VALUES (?, ?, ?)
-                    """, (key_id, source_parts[0], int(source_parts[1])))
+        # Batch writing parameters
+        batch_size = 1000
+        batch_data = []
+        feature_mappings = []
         
-        conn.commit()
-        conn.close()
+        try:
+            # Process each dataset
+            for dataset in self.config.get('datasets', []):
+                print(f"\nProcessing dataset: {dataset['name']}")
+                
+                hic_path = dataset['hic_path']
+                feature_path = dataset['feature_path']
+                
+                # Get resolutions and options
+                resolutions = dataset.get('resolutions', DEFAULT_RESOLUTIONS)
+                genome = dataset.get('genome', 'hg38')
+                norm = dataset.get('options', {}).get('norm', 'NONE')
+                toolsource = dataset.get('options', {}).get('toolsource', 'unknown')
+                featuretype = dataset.get('options', {}).get('featuretype', 'unknown')
+                
+                # Validate dimensions
+                dimensions = self.validate_dimensions(resolutions)
+                
+                # Process each resolution
+                for resolution in resolutions:
+                    print(f"  Processing resolution: {resolution}bp")
+                    dimension = dimensions[resolution]
+                    
+                    # Process Hi-C file
+                    image_dict = self.process_hic_file(
+                        hic_path, feature_path, resolution, dimension, norm
+                    )
+                    
+                    # Process each image
+                    for key_id, data in image_dict.items():
+                        coords = data['coordinates']
+                        coord_str = f"{coords[0]},{coords[1]},{coords[2]},{coords[3]},{coords[4]},{coords[5]}"
+                        
+                        # Extract sequences if genome file available
+                        seq_a, seq_b = self.extract_sequences(coords, genome)
+                        
+                        # Prepare metadata
+                        meta = json.dumps({
+                            'genome': genome,
+                            'feature_source': data['feature_source'],
+                            'dataset_name': dataset['name']
+                        })
+                        
+                        # Add to batch
+                        batch_data.append((
+                            key_id,
+                            f"{dataset['name']}_{resolution}_{key_id}",
+                            dataset.get('dataset', dataset['name']),
+                            dataset.get('condition', ''),
+                            coord_str,
+                            data['numpy_window'].tobytes(),
+                            data['viewing_vmax'],
+                            data['true_max'],
+                            data['hist_rel'].tobytes(),
+                            data['hist_true'].tobytes(),
+                            dimension,
+                            hic_path,
+                            resolution,
+                            norm,
+                            seq_a,
+                            seq_b,
+                            toolsource,
+                            featuretype,
+                            '',  # Empty labels column
+                            meta
+                        ))
+                        
+                        # Add feature mapping
+                        source_parts = data['feature_source'].split(':')
+                        feature_mappings.append((
+                            key_id, 
+                            source_parts[0], 
+                            int(source_parts[1])
+                        ))
+                        
+                        # Write batch if full
+                        if len(batch_data) >= batch_size:
+                            try:
+                                cursor.executemany("""
+                                    INSERT INTO imag VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                """, batch_data)
+                                
+                                cursor.executemany("""
+                                    INSERT INTO feature_mapping VALUES (?, ?, ?)
+                                """, feature_mappings)
+                                
+                                conn.commit()
+                                print(f"    Wrote batch of {len(batch_data)} records")
+                                
+                                batch_data = []
+                                feature_mappings = []
+                                
+                            except Exception as e:
+                                print(f"    Error writing batch: {e}")
+                                # Try to write individually
+                                for record in batch_data:
+                                    try:
+                                        cursor.execute("""
+                                            INSERT INTO imag VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                        """, record)
+                                    except Exception as e2:
+                                        print(f"      Failed to write record {record[0]}: {e2}")
+                                conn.commit()
+                                batch_data = []
+                                feature_mappings = []
+            
+            # Write remaining batch
+            if batch_data:
+                try:
+                    cursor.executemany("""
+                        INSERT INTO imag VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """, batch_data)
+                    
+                    cursor.executemany("""
+                        INSERT INTO feature_mapping VALUES (?, ?, ?)
+                    """, feature_mappings)
+                    
+                    conn.commit()
+                    print(f"  Wrote final batch of {len(batch_data)} records")
+                    
+                except Exception as e:
+                    print(f"  Error writing final batch: {e}")
+                    # Try individual writes as fallback
+                    for record in batch_data:
+                        try:
+                            cursor.execute("""
+                                INSERT INTO imag VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                            """, record)
+                        except Exception as e2:
+                            print(f"    Failed to write record {record[0]}: {e2}")
+                    conn.commit()
+        
+        finally:
+            conn.close()
         
         # Save feature mapping to separate file
         mapping_path = Path(output_db).with_suffix('.mapping.json')
