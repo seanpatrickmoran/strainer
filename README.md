@@ -16,7 +16,7 @@ Preparation of data for strainer.py requires an input datafile to format the pro
   4. genome: such as hg19, needs to be used such that it is the prefix for filepaths at top of json i.e. "HG19_PATH"
   5. resolutions: \[resolution\]. Hi-C resolution, should be availible in Hi-C file and the resolution used for the Feature Caller.
 
-```
+```json
 {
   "HG38_PATH": "/2bitPath/hg38.analysisSet.2bit"
   "HG19_PATH": "/2bitPath/hg19.2bit"
@@ -57,7 +57,7 @@ Preparation of data for strainer.py requires an input datafile to format the pro
 Alternatively, YAML can be used instead. Simply follow the template below.
 
 
-```
+```yaml
 HG38_PATH: "/2bitPath/hg38.analysisSet.2bit"
 HG19_PATH: "/2bitPath/hg19.2bit"
 
