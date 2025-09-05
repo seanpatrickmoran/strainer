@@ -538,7 +538,7 @@ class UnifiedHiCPipeline:
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python unified_pipeline.py <config.json/yaml> [output.db]")
+        print("Usage: python strainer.py <config.json/yaml> [output.db]")
         sys.exit(1)
     
     config_path = sys.argv[1]
