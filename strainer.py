@@ -51,21 +51,20 @@ class UnifiedHiCPipeline:
         """Validate and calculate dimensions for given resolutions"""
         dimensions = {}
         
-        # Sort resolutions from smallest to largest
-        sorted_res = sorted(resolutions)
-        
-        # Ensure smallest resolution has at least 33 pixel window
-        base_res = sorted_res[-1]  # Largest resolution value = smallest image
-        base_dim = 33
-        
+        # Use predefined dimensions or calculate
         for res in resolutions:
-            # Scale dimensions proportionally
-            dim = int(base_dim * (base_res / res))
-            dimensions[res] = dim
+            if res in DIMENSION_MAP:
+                dimensions[res] = DIMENSION_MAP[res]
+            else:
+                # Scale proportionally - smaller resolution needs larger dimension
+                # 2000bp -> 163px, 5000bp -> 65px, 10000bp -> 33px
+                # Approximately: dimension = 326000 / resolution
+                dim = int(326000 / res)
+                dimensions[res] = dim
             
             # Warn if dimension exceeds 200
-            if dim > 200:
-                response = input(f"Warning: Resolution {res} will create {dim}x{dim} images. Continue? [Y/n]: ")
+            if dimensions[res] > 200:
+                response = input(f"Warning: Resolution {res} will create {dimensions[res]}x{dimensions[res]} images. Continue? [Y/n]: ")
                 if response.lower() == 'n':
                     raise ValueError("User cancelled due to large image dimensions")
         
@@ -136,6 +135,19 @@ class UnifiedHiCPipeline:
         """Process a single Hi-C file with features"""
         hold_np = {}
         
+
+        # Check files exist
+        if not os.path.exists(hic_path):
+            print(f"ERROR: Hi-C file not found: {hic_path}")
+            return {}
+        
+        if not os.path.exists(feature_path):
+            print(f"ERROR: Feature file not found: {feature_path}")
+            return {}
+        
+        print(f"    Loading {hic_path}")
+        print(f"    With features from {feature_path}")
+
         if hic_path.endswith('.hic'):
             hic = hicstraw.HiCFile(hic_path)
             last_chr = None
@@ -178,6 +190,8 @@ class UnifiedHiCPipeline:
                         np_mat = matrix_obj.getRecordsAsMatrix(r1, r2, r3, r4)
                         
                         if np_mat.shape != (dimension, dimension):
+                            print(f"      Matrix shape: {np_mat.shape}, Expected: ({dimension}, {dimension})")
+                            print(f"      Skipping - shape mismatch")
                             continue
                         
                         # Calculate histograms
@@ -444,6 +458,12 @@ class UnifiedHiCPipeline:
     def run(self, output_db: str):
         """Execute the full pipeline with batch writing"""
         print("Starting unified Hi-C image pipeline...")
+        print(f"Config has {len(self.config.get('datasets', []))} datasets")
+        
+        for dataset in self.config.get('datasets', []):
+            print(f"  Dataset: {dataset['name']}")
+            print(f"    Hi-C: {dataset.get('hic_path', 'MISSING')}")
+            print(f"    Features: {dataset.get('feature_path', 'MISSING')}")
         
         # Create output database
         self.create_database(output_db)
