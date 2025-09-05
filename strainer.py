@@ -22,9 +22,9 @@ from matplotlib.colors import LinearSegmentedColormap
 # Constants
 DEFAULT_RESOLUTIONS = [2000, 5000, 10000]
 DIMENSION_MAP = {
-    2000: 163,
-    5000: 65,
-    10000: 33
+    2000: 162,
+    5000: 64,
+    10000: 32
 }
 REDMAP = LinearSegmentedColormap.from_list("bright_red", [(1,1,1),(1,0,0)])
 
@@ -189,8 +189,8 @@ class UnifiedHiCPipeline:
                         # Extract matrix
                         np_mat = matrix_obj.getRecordsAsMatrix(r1, r2, r3, r4)
                         
-                        if np_mat.shape != (dimension, dimension):
-                            print(f"      Matrix shape: {np_mat.shape}, Expected: ({dimension}, {dimension})")
+                        if np_mat.shape != (dimension+1, dimension+1):
+                            print(f"      Matrix shape: {np_mat.shape}, Expected: ({dimension+1}, {dimension+1})")
                             print(f"      Skipping - shape mismatch")
                             continue
                         
@@ -319,7 +319,7 @@ class UnifiedHiCPipeline:
                         bin_r4 = r4 // bin_size
                         
                         # Ensure we have the right dimensions
-                        expected_bins = dimension
+                        expected_bins = dimension+1
                         if (bin_r2 - bin_r1) != expected_bins or (bin_r4 - bin_r3) != expected_bins:
                             # Adjust to get exact dimension
                             bin_r2 = bin_r1 + expected_bins
@@ -332,15 +332,15 @@ class UnifiedHiCPipeline:
                         np_mat = np.nan_to_num(np_mat, nan=0.0, posinf=0.0, neginf=0.0)
                         
                         # Ensure correct shape
-                        if np_mat.shape != (dimension, dimension):
+                        if np_mat.shape != (dimension+1, dimension+1):
                             # Pad if necessary
-                            if np_mat.shape[0] < dimension or np_mat.shape[1] < dimension:
-                                padded = np.zeros((dimension, dimension), dtype=np.float32)
+                            if np_mat.shape[0] < dimension+1 or np_mat.shape[1] < dimension+1:
+                                padded = np.zeros((dimension+1, dimension+1), dtype=np.float32)
                                 padded[:np_mat.shape[0], :np_mat.shape[1]] = np_mat
                                 np_mat = padded
                             else:
                                 # Trim if too large
-                                np_mat = np_mat[:dimension, :dimension]
+                                np_mat = np_mat[:dimension+1, :dimension+1]
                         
                         # Convert to float32
                         np_mat = np_mat.astype(np.float32)
@@ -518,6 +518,8 @@ class UnifiedHiCPipeline:
                             'dataset_name': dataset['name']
                         })
                         
+                        print(data['numpy_window'].shape)
+
                         # Add to batch
                         batch_data.append((
                             key_id,
