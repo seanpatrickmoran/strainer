@@ -423,6 +423,7 @@ class UnifiedHiCPipeline:
                 seqB TEXT,
                 toolsource TEXT,
                 featuretype TEXT,
+                labels TEXT DEFAULT '',
                 meta TEXT
             )
         """)
@@ -513,6 +514,7 @@ class UnifiedHiCPipeline:
                         seq_b,
                         toolsource,
                         featuretype,
+                        '',
                         meta
                     ))
                     
