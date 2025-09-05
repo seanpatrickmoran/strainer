@@ -194,6 +194,7 @@ class UnifiedHiCPipeline:
                             print(f"      Skipping - shape mismatch")
                             continue
                         
+
                         # Calculate histograms
                         mum_mat, vmax = self.choose_vmax(np_mat)
                         true_max = np.max(np_mat)
@@ -203,10 +204,21 @@ class UnifiedHiCPipeline:
                         
                         for i in range(np_mat.shape[0]):
                             for j in range(np_mat.shape[1]):
-                                rel_val = int(np.clip(np_mat[i,j] / vmax * 255, 0, 255))
-                                true_val = int(np.clip(np_mat[i,j] / true_max * 255, 0, 255))
+                                # rel_val = int(np.clip(np_mat[i,j] / vmax * 255, 0, 255))
+                                # true_val = int(np.clip(np_mat[i,j] / true_max * 255, 0, 255))
+                                # hist_rel[rel_val] += 1
+                                # hist_true[true_val] += 1
+                                _n = round(np_mat[i][j]/vmax*255)
+                                rel_idx = _n if _n < 255 else 255 if _n < 0 else 0
+                                _n = round(np_mat[i][j]/true_max *255)
+                                true_idx = _n if _n < 255 else 255 if _n < 0 else 0
                                 hist_rel[rel_val] += 1
                                 hist_true[true_val] += 1
+
+
+
+
+
                         
                         # Store result with feature mapping
                         feature_key = f"{feature_path}:{row_num}"
