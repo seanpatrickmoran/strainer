@@ -530,8 +530,6 @@ class UnifiedHiCPipeline:
                             'dataset_name': dataset['name']
                         })
                         
-                        print(data['numpy_window'].shape)
-
                         # Add to batch
                         batch_data.append((
                             key_id,
