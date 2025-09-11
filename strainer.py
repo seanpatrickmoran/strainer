@@ -212,8 +212,8 @@ class UnifiedHiCPipeline:
                                 rel_idx = _n if _n < 255 else 255 if _n < 0 else 0
                                 _n = round(np_mat[i][j]/true_max *255)
                                 true_idx = _n if _n < 255 else 255 if _n < 0 else 0
-                                hist_rel[rel_val] += 1
-                                hist_true[true_val] += 1
+                                hist_rel[rel_idx] += 1
+                                hist_true[true_idx] += 1
 
 
 
